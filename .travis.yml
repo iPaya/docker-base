@@ -11,20 +11,14 @@ after_script:
   - docker images
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-      docker login -u="$ALIYUN_USERNAME" -p="$ALIYUN_PASSWORD" $ALIYUN_REGISTRY;
-      docker tag ipaya/base:latest $ALIYUN_REGISTRY/ipaya/base:latest;
       docker push ipaya/base:latest;
-      docker push $ALIYUN_REGISTRY/ipaya/base:latest;
     fi
   - if [ "$TRAVIS_TAG" ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-      docker login -u="$ALIYUN_USERNAME" -p="$ALIYUN_PASSWORD" $ALIYUN_REGISTRY;
       docker tag ipaya/base:latest ipaya/base:$TRAVIS_TAG;
-      docker tag ipaya/base:latest $ALIYUN_REGISTRY/ipaya/base:$TRAVIS_TAG;
       docker push ipaya/base:$TRAVIS_TAG;
-      docker push $ALIYUN_REGISTRY/ipaya/base:$TRAVIS_TAG;
     fi
 
 # vim:set et ts=2 sw=2:
